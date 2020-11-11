@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"wizardly-chandrasekhar-374642.netlify.app","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Working on a fork12">
+  <meta name="description" content="Setting up gitGit global setup12git config --global user.name &quot;Appleseed, John&quot;git config --global user.email &quot;john.appleseed@apple.com&quot; Let git remember username and password 1git config --global cre">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Github Workbook">
 <meta property="og:url" content="https://wizardly-chandrasekhar-374642.netlify.app/2020/11/05/Github-Workbook/index.html">
 <meta property="og:site_name" content="Clumsy&#39;s Blog">
-<meta property="og:description" content="Working on a fork12">
+<meta property="og:description" content="Setting up gitGit global setup12git config --global user.name &quot;Appleseed, John&quot;git config --global user.email &quot;john.appleseed@apple.com&quot; Let git remember username and password 1git config --global cre">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-11-05T10:26:54.000Z">
-<meta property="article:modified_time" content="2020-11-05T12:37:40.594Z">
+<meta property="article:modified_time" content="2020-11-11T13:04:01.046Z">
 <meta property="article:author" content="Johnson Zhou">
 <meta property="article:tag" content="Github">
 <meta name="twitter:card" content="summary">
@@ -193,10 +193,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-11-05 18:26:54 / Modified: 20:37:40" itemprop="dateCreated datePublished" datetime="2020-11-05T18:26:54+08:00">2020-11-05</time>
+              <time title="Created: 2020-11-05 18:26:54" itemprop="dateCreated datePublished" datetime="2020-11-05T18:26:54+08:00">2020-11-05</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-11-11 21:04:01" itemprop="dateModified" datetime="2020-11-11T21:04:01+08:00">2020-11-11</time>
+              </span>
 
           
   
@@ -223,7 +229,22 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="Working-on-a-fork"><a href="#Working-on-a-fork" class="headerlink" title="Working on a fork"></a>Working on a fork</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        <h2 id="Setting-up-git"><a href="#Setting-up-git" class="headerlink" title="Setting up git"></a>Setting up git</h2><h3 id="Git-global-setup"><a href="#Git-global-setup" class="headerlink" title="Git global setup"></a>Git global setup</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name <span class="string">"Appleseed, John"</span></span><br><span class="line">git config --global user.email <span class="string">"john.appleseed@apple.com"</span></span><br></pre></td></tr></table></figure>
+<p>Let git remember username and password</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global credential.helper store</span><br></pre></td></tr></table></figure>
+
+<h3 id="Push-an-existing-folder"><a href="#Push-an-existing-folder" class="headerlink" title="Push an existing folder"></a>Push an existing folder</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> existing_folder</span><br><span class="line">git init</span><br><span class="line">git remote add origin https://remote.origin.git</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">"Initial commit"</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Push-an-existing-git-repository"><a href="#Push-an-existing-git-repository" class="headerlink" title="Push an existing git repository"></a>Push an existing git repository</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> existing_repo</span><br><span class="line">git remote rename origin old-origin</span><br><span class="line">git remote add origin https://nice.git</span><br></pre></td></tr></table></figure>
+
+<h2 id="Managing-a-pull-request"><a href="#Managing-a-pull-request" class="headerlink" title="Managing a pull request"></a>Managing a pull request</h2><h2 id="Squash-all-commits-on-branch"><a href="#Squash-all-commits-on-branch" class="headerlink" title="Squash all commits on branch"></a><a href="https://stackoverflow.com/questions/25356810/git-how-to-squash-all-commits-on-branch" target="_blank" rel="noopener">Squash all commits on branch</a></h2><p>Checkout the branch for which you would like to squash all the commits into one commit. Lets say its called feature_branch.</p>
+<p>git checkout feature_branch<br>Step 1:<br>Do a soft reset of your origin/feature_branch with your local master branch (depending on your needs, you can reset with origin/master as well). This will reset all the extra commits in your feature_branch, but without changing any of your file changes locally.</p>
+<p>git reset –soft master<br>Step 2:<br>Add all of the changes in your git repo directory, to the new commit that is going to be created. And commit the same with a message.</p>
+<p>git add -A &amp;&amp; git commit -m “commit message goes here”</p>
+<h3 id="Undo-git-add"><a href="#Undo-git-add" class="headerlink" title="Undo git add"></a><a href="https://stackoverflow.com/questions/348170/how-do-i-undo-git-add-before-commit" target="_blank" rel="noopener">Undo <code>git add</code></a></h3><p>You can undo git add before commit with</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git reset &lt;file&gt;    <span class="comment"># Unstage a specific file</span></span><br><span class="line">git reset           <span class="comment"># Unstage all due changes</span></span><br></pre></td></tr></table></figure>
+
+
     </div>
 
     
@@ -310,7 +331,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Working-on-a-fork"><span class="nav-number">1.</span> <span class="nav-text">Working on a fork</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Setting-up-git"><span class="nav-number">1.</span> <span class="nav-text">Setting up git</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Git-global-setup"><span class="nav-number">1.1.</span> <span class="nav-text">Git global setup</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Push-an-existing-folder"><span class="nav-number">1.2.</span> <span class="nav-text">Push an existing folder</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Push-an-existing-git-repository"><span class="nav-number">1.3.</span> <span class="nav-text">Push an existing git repository</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Managing-a-pull-request"><span class="nav-number">2.</span> <span class="nav-text">Managing a pull request</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Squash-all-commits-on-branch"><span class="nav-number">3.</span> <span class="nav-text">Squash all commits on branch</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Undo-git-add"><span class="nav-number">3.1.</span> <span class="nav-text">Undo git add</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
