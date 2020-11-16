@@ -196,7 +196,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-11-11 21:04:01" itemprop="dateModified" datetime="2020-11-11T21:04:01+08:00">2020-11-11</time>
+                <time title="Modified: 2020-11-16 14:55:34" itemprop="dateModified" datetime="2020-11-16T14:55:34+08:00">2020-11-16</time>
               </span>
 
           
@@ -239,6 +239,16 @@
 <h3 id="Undo-git-add"><a href="#Undo-git-add" class="headerlink" title="Undo git add"></a><a href="https://stackoverflow.com/questions/348170/how-do-i-undo-git-add-before-commit" target="_blank" rel="noopener">Undo <code>git add</code></a></h3><p>You can undo git add before commit with</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git reset &lt;file&gt;    <span class="comment"># Unstage a specific file</span></span><br><span class="line">git reset           <span class="comment"># Unstage all due changes</span></span><br></pre></td></tr></table></figure>
 
+<h2 id="git-reset"><a href="#git-reset" class="headerlink" title="git reset"></a><code>git reset</code></h2><p>Undo the last commit</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --soft HEAD~1</span><br></pre></td></tr></table></figure>
+
+<p>The <code>--soft</code> flag ensures that the commit changes are kept as <strong>staged changes</strong>.<br>The <code>--hard</code> flag would remove those changes as well. </p>
+<h2 id="git-stash"><a href="#git-stash" class="headerlink" title="git stash"></a><code>git stash</code></h2><p>Use <code>git stash</code> to store uncommitted changes (usually to move on to a new branch). </p>
+<p><code>git stash pop</code> to restore the stash changes. Unless there are conflicts, the changes are removed from the stash. </p>
+<p><code>git stash apply</code> leaves stash changes in the stash list after applying. </p>
+<blockquote>
+<p><code>git stash pop</code> is <code>git stash apply &amp;&amp; git stash drop</code></p>
+</blockquote>
 
       
     </div>
