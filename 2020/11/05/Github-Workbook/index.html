@@ -28,7 +28,7 @@
 <meta property="og:description" content="Setting up gitGit global setup12git config --global user.name &quot;Appleseed, John&quot;git config --global user.email &quot;john.appleseed@apple.com&quot; Let git remember username and password 1git config --global cre">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-11-05T10:26:54.000Z">
-<meta property="article:modified_time" content="2020-11-16T06:55:34.525Z">
+<meta property="article:modified_time" content="2020-11-18T09:10:06.762Z">
 <meta property="article:author" content="Johnson Zhou">
 <meta property="article:tag" content="Github">
 <meta name="twitter:card" content="summary">
@@ -201,7 +201,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-11-16 14:55:34" itemprop="dateModified" datetime="2020-11-16T14:55:34+08:00">2020-11-16</time>
+                <time title="Modified: 2020-11-18 17:10:06" itemprop="dateModified" datetime="2020-11-18T17:10:06+08:00">2020-11-18</time>
               </span>
 
           
@@ -237,7 +237,11 @@
 
 <h3 id="Push-an-existing-git-repository"><a href="#Push-an-existing-git-repository" class="headerlink" title="Push an existing git repository"></a>Push an existing git repository</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> existing_repo</span><br><span class="line">git remote rename origin old-origin</span><br><span class="line">git remote add origin https://nice.git</span><br></pre></td></tr></table></figure>
 
-<h2 id="Managing-a-pull-request"><a href="#Managing-a-pull-request" class="headerlink" title="Managing a pull request"></a>Managing a pull request</h2><h2 id="Squash-all-commits-on-branch"><a href="#Squash-all-commits-on-branch" class="headerlink" title="Squash all commits on branch"></a><a href="https://stackoverflow.com/questions/25356810/git-how-to-squash-all-commits-on-branch" target="_blank" rel="noopener">Squash all commits on branch</a></h2><p>Checkout the branch for which you would like to squash all the commits into one commit. Lets say its called feature_branch.</p>
+<h2 id="Managing-a-pull-request"><a href="#Managing-a-pull-request" class="headerlink" title="Managing a pull request"></a>Managing a pull request</h2><p>There are two ways to work with a forked history. <code>git rebase</code> or <code>git merge</code>. </p>
+<p>Merge master commits onto feature branch</p>
+<p><code>git checkout feature git merge master</code> or <code>git merge feature master</code></p>
+<p>Merging is not destructive, because it updates the feature branch using an extra merge commit, which could be extraneous and pollute master’s history.</p>
+<h2 id="Squash-all-commits-on-branch"><a href="#Squash-all-commits-on-branch" class="headerlink" title="Squash all commits on branch"></a><a href="https://stackoverflow.com/questions/25356810/git-how-to-squash-all-commits-on-branch" target="_blank" rel="noopener">Squash all commits on branch</a></h2><p>Checkout the branch for which you would like to squash all the commits into one commit. Lets say its called feature_branch.</p>
 <p>git checkout feature_branch<br>Step 1:<br>Do a soft reset of your origin/feature_branch with your local master branch (depending on your needs, you can reset with origin/master as well). This will reset all the extra commits in your feature_branch, but without changing any of your file changes locally.</p>
 <p>git reset –soft master<br>Step 2:<br>Add all of the changes in your git repo directory, to the new commit that is going to be created. And commit the same with a message.</p>
 <p>git add -A &amp;&amp; git commit -m “commit message goes here”</p>
