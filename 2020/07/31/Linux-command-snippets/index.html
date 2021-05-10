@@ -28,7 +28,7 @@
 <meta property="og:description" content="sudo -E The -E (preserve environment) option indicates to the security policy that the user wishes to preserve their existing environment variables. The security policy may return an error if the -E o">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-07-31T07:34:05.000Z">
-<meta property="article:modified_time" content="2020-08-29T12:24:44.896Z">
+<meta property="article:modified_time" content="2021-05-10T17:34:28.058Z">
 <meta property="article:author" content="Johnson Zhou">
 <meta name="twitter:card" content="summary">
 
@@ -200,7 +200,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-08-29 20:24:44" itemprop="dateModified" datetime="2020-08-29T20:24:44+08:00">2020-08-29</time>
+                <time title="Modified: 2021-05-11 01:34:28" itemprop="dateModified" datetime="2021-05-11T01:34:28+08:00">2021-05-11</time>
               </span>
 
           
@@ -237,6 +237,18 @@
 <p><code>ps aux | grep process_name</code> find the process named <code>process_name</code></p>
 <p>Find process occupying port <code>8888</code><br><code>sudo lsof -i :8888</code></p>
 <h3 id="Killing-processes"><a href="#Killing-processes" class="headerlink" title="Killing processes"></a>Killing processes</h3><h2 id="Jupyter"><a href="#Jupyter" class="headerlink" title="Jupyter"></a>Jupyter</h2><p><code>ipython kernelspec list</code> - find ipython kernel list</p>
+<h2 id="set-command"><a href="#set-command" class="headerlink" title="set command"></a><code>set</code> command</h2><p><code>set -e</code> exit program on first error encountered. Does not continue execution.</p>
+<h2 id="trap-command"><a href="#trap-command" class="headerlink" title="trap command"></a><code>trap</code> command</h2><p><a href="https://www.linuxjournal.com/content/bash-trap-command" target="_blank" rel="noopener">Link</a></p>
+<p>Most commonly used scenario: create a temporary file, delete it on exist.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tempfile=/tmp/tmpdata</span><br><span class="line"><span class="built_in">trap</span> <span class="string">"rm -f <span class="variable">$tempfile</span>"</span> EXIT</span><br></pre></td></tr></table></figure>
+
+<p>Or call a cleanup function </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> cleanup()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">trap</span> cleanup EXIT</span><br></pre></td></tr></table></figure>
+
+<p><strong>Important</strong>: interrupted commands are not restarted. So if your script needs to do something important that shouldn’t be interrupted, then you can’t, for example, use the trap command to trap the signal, print a warning, and then resume the operation like nothing happened. Rather, what you need to do if you can’t have something interrupted is disable Ctrl-C handling while the command executes. You can do this with the trap command too by specifying an empty command to trap. You can also use the trap command to reset signal handling to the default by specifying a “-“ as the command.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Run something important, no Ctrl-C allowed.</span></span><br><span class="line"><span class="built_in">trap</span> <span class="string">""</span> SIGINT</span><br><span class="line">important_command</span><br><span class="line"></span><br><span class="line"><span class="comment"># Less important stuff from here on out, Ctrl-C allowed.</span></span><br><span class="line"><span class="built_in">trap</span> - SIGINT</span><br><span class="line">not_so_important_command</span><br></pre></td></tr></table></figure>
+
+
 
     </div>
 
@@ -324,7 +336,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#sudo-E"><span class="nav-number">1.</span> <span class="nav-text">sudo -E</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Disk-space-management"><span class="nav-number">2.</span> <span class="nav-text">Disk space management</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Processes"><span class="nav-number">3.</span> <span class="nav-text">Processes</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Killing-processes"><span class="nav-number">3.1.</span> <span class="nav-text">Killing processes</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Jupyter"><span class="nav-number">4.</span> <span class="nav-text">Jupyter</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#sudo-E"><span class="nav-number">1.</span> <span class="nav-text">sudo -E</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Disk-space-management"><span class="nav-number">2.</span> <span class="nav-text">Disk space management</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Processes"><span class="nav-number">3.</span> <span class="nav-text">Processes</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Killing-processes"><span class="nav-number">3.1.</span> <span class="nav-text">Killing processes</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Jupyter"><span class="nav-number">4.</span> <span class="nav-text">Jupyter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#set-command"><span class="nav-number">5.</span> <span class="nav-text">set command</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#trap-command"><span class="nav-number">6.</span> <span class="nav-text">trap command</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -340,7 +352,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-count">12</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -353,7 +365,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags">
           
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -391,7 +403,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
