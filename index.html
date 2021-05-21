@@ -421,7 +421,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-11-18 17:10:06" itemprop="dateModified" datetime="2020-11-18T17:10:06+08:00">2020-11-18</time>
+                <time title="Modified: 2021-05-22 03:41:31" itemprop="dateModified" datetime="2021-05-22T03:41:31+08:00">2021-05-22</time>
               </span>
 
           
@@ -450,35 +450,14 @@
 
       
           <h2 id="Setting-up-git"><a href="#Setting-up-git" class="headerlink" title="Setting up git"></a>Setting up git</h2><h3 id="Git-global-setup"><a href="#Git-global-setup" class="headerlink" title="Git global setup"></a>Git global setup</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name <span class="string">"Appleseed, John"</span></span><br><span class="line">git config --global user.email <span class="string">"john.appleseed@apple.com"</span></span><br></pre></td></tr></table></figure>
-<p>Let git remember username and password</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global credential.helper store</span><br></pre></td></tr></table></figure>
-
-<h3 id="Push-an-existing-folder"><a href="#Push-an-existing-folder" class="headerlink" title="Push an existing folder"></a>Push an existing folder</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> existing_folder</span><br><span class="line">git init</span><br><span class="line">git remote add origin https://remote.origin.git</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">"Initial commit"</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="Push-an-existing-git-repository"><a href="#Push-an-existing-git-repository" class="headerlink" title="Push an existing git repository"></a>Push an existing git repository</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> existing_repo</span><br><span class="line">git remote rename origin old-origin</span><br><span class="line">git remote add origin https://nice.git</span><br></pre></td></tr></table></figure>
-
-<h2 id="Managing-a-pull-request"><a href="#Managing-a-pull-request" class="headerlink" title="Managing a pull request"></a>Managing a pull request</h2><p>There are two ways to work with a forked history. <code>git rebase</code> or <code>git merge</code>. </p>
-<p>Merge master commits onto feature branch</p>
-<p><code>git checkout feature git merge master</code> or <code>git merge feature master</code></p>
-<p>Merging is not destructive, because it updates the feature branch using an extra merge commit, which could be extraneous and pollute master’s history.</p>
-<h2 id="Squash-all-commits-on-branch"><a href="#Squash-all-commits-on-branch" class="headerlink" title="Squash all commits on branch"></a><a href="https://stackoverflow.com/questions/25356810/git-how-to-squash-all-commits-on-branch" target="_blank" rel="noopener">Squash all commits on branch</a></h2><p>Checkout the branch for which you would like to squash all the commits into one commit. Lets say its called feature_branch.</p>
-<p>git checkout feature_branch<br>Step 1:<br>Do a soft reset of your origin/feature_branch with your local master branch (depending on your needs, you can reset with origin/master as well). This will reset all the extra commits in your feature_branch, but without changing any of your file changes locally.</p>
-<p>git reset –soft master<br>Step 2:<br>Add all of the changes in your git repo directory, to the new commit that is going to be created. And commit the same with a message.</p>
-<p>git add -A &amp;&amp; git commit -m “commit message goes here”</p>
-<h3 id="Undo-git-add"><a href="#Undo-git-add" class="headerlink" title="Undo git add"></a><a href="https://stackoverflow.com/questions/348170/how-do-i-undo-git-add-before-commit" target="_blank" rel="noopener">Undo <code>git add</code></a></h3><p>You can undo git add before commit with</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git reset &lt;file&gt;    <span class="comment"># Unstage a specific file</span></span><br><span class="line">git reset           <span class="comment"># Unstage all due changes</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="git-reset"><a href="#git-reset" class="headerlink" title="git reset"></a><code>git reset</code></h2><p>Undo the last commit</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --soft HEAD~1</span><br></pre></td></tr></table></figure>
-
-<p>The <code>--soft</code> flag ensures that the commit changes are kept as <strong>staged changes</strong>.<br>The <code>--hard</code> flag would remove those changes as well. </p>
-<h2 id="git-stash"><a href="#git-stash" class="headerlink" title="git stash"></a><code>git stash</code></h2><p>Use <code>git stash</code> to store uncommitted changes (usually to move on to a new branch). </p>
-<p><code>git stash pop</code> to restore the stash changes. Unless there are conflicts, the changes are removed from the stash. </p>
-<p><code>git stash apply</code> leaves stash changes in the stash list after applying. </p>
-<blockquote>
-<p><code>git stash pop</code> is <code>git stash apply &amp;&amp; git stash drop</code></p>
-</blockquote>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/11/05/Github-Workbook/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
