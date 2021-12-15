@@ -270,7 +270,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2021-12-15 00:09:25 / Modified: 00:14:40" itemprop="dateCreated datePublished" datetime="2021-12-15T00:09:25-08:00">2021-12-15</time>
+              <time title="Created: 2021-12-15 00:09:25 / Modified: 01:24:45" itemprop="dateCreated datePublished" datetime="2021-12-15T00:09:25-08:00">2021-12-15</time>
             </span>
 
           
@@ -299,9 +299,14 @@
 
       
           <h1 id="std-nullptr-t"><a href="#std-nullptr-t" class="headerlink" title="std::nullptr_t"></a>std::nullptr_t</h1><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/12066721/what-are-the-uses-of-the-type-stdnullptr-t">What are the uses of the type <code>std::nullptr_t</code>?</a></p>
-<p>If more than one overload accepts a pointer type, an overload for <code>std::nullptr_t</code> is necessary to accept a <code>nullptr</code> argument. Without the <code>std::nullptr_t</code> overload, it would be ambiguous which pointer overload should be selected when passed <code>nullptr</code>.</p>
-<p>Example:</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">int</span> *intp)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// Passed an int pointer</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">char</span> *charp)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// Passed a char pointer</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(std::<span class="keyword">nullptr_t</span> nullp)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// Passed a null pointer</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/15/Overloading-nullptr/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -351,7 +356,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-12-10 23:36:06" itemprop="dateModified" datetime="2021-12-10T23:36:06-08:00">2021-12-10</time>
+                <time title="Modified: 2021-12-15 01:25:04" itemprop="dateModified" datetime="2021-12-15T01:25:04-08:00">2021-12-15</time>
               </span>
 
           
@@ -381,8 +386,14 @@
       
           <p>Today I interviewed with a Crypto team. The questions that they asked are quite interesting indeed.</p>
 <p>Given a board of tic-tac-toe, find the next optimal move for a player. </p>
-<p>To solve this problem, we can use a simple min-max algorithm approach. To carry out the min-max algorithm, we can use a depth-first search algorithm.</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Returns the &quot;max&quot; state and the move to achieve that state</span></span><br><span class="line"><span class="comment">// &#123; state, move &#125;</span></span><br><span class="line"><span class="function">pair&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; <span class="title">dfs</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt;&amp; board, <span class="keyword">char</span> p)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">isDraw</span>(board)) &#123;</span><br><span class="line">        <span class="comment">// If there&#x27;s a draw, return state = 0</span></span><br><span class="line">        <span class="keyword">return</span> &#123; <span class="number">0</span>, <span class="number">-1</span> &#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="number">9</span>; i++) &#123;</span><br><span class="line">        <span class="comment">// Make a move </span></span><br><span class="line">        board[i] = p;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">wins</span>(board, p))</span><br><span class="line">            board[i] = <span class="string">&#x27; &#x27;</span>;</span><br><span class="line">            <span class="keyword">return</span> &#123; <span class="number">1</span>, i &#125;;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">auto</span> ret = <span class="built_in">dfs</span>(board, <span class="built_in">otherPlayer</span>(p));</span><br><span class="line">        board[i] = <span class="string">&#x27; &#x27;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> state = <span class="number">2</span>, move;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (ret == <span class="number">-1</span>)</span><br><span class="line">            <span class="comment">// Opponent&#x27;s optimal move is a loss, we want this</span></span><br><span class="line">            <span class="keyword">return</span> &#123; <span class="number">1</span>, i &#125;;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (ret.first &lt; state) &#123;</span><br><span class="line">            <span class="comment">// Found a smaller opponent state</span></span><br><span class="line">            state = ret.first;</span><br><span class="line">            move = ret.second;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// if min state is 0 then it means the current player can only force a draw -&gt; 0</span></span><br><span class="line">    <span class="comment">// if min state is 1 then it means the current player cannot win -&gt; -1</span></span><br><span class="line">    <span class="keyword">return</span> &#123; -ret, move &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/09/Tic-tac-toe/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
