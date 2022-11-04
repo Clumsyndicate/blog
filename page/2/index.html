@@ -165,6 +165,105 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-cn">
+    <link itemprop="mainEntityOfPage" href="https://wizardly-chandrasekhar-374642.netlify.app/2020/07/31/Linux-command-snippets/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Johnson Zhou">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Clumsy's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/31/Linux-command-snippets/" class="post-title-link" itemprop="url">Linux command snippets</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-07-31 00:34:05" itemprop="dateCreated datePublished" datetime="2020-07-31T00:34:05-07:00">2020-07-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-05-10 10:34:28" itemprop="dateModified" datetime="2021-05-10T10:34:28-07:00">2021-05-10</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/07/31/Linux-command-snippets/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/31/Linux-command-snippets/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="sudo-E"><a href="#sudo-E" class="headerlink" title="sudo -E"></a><code>sudo -E</code></h2><blockquote>
+<p>The -E (preserve environment) option indicates to the security policy that the user wishes to preserve their existing environment variables. The security policy may return an error if the -E option is specified and the user does not have permission to preserve the environment.</p>
+</blockquote>
+<h2 id="Disk-space-management"><a href="#Disk-space-management" class="headerlink" title="Disk space management"></a>Disk space management</h2><p><code>df</code> command – Shows the amount of disk space used and available on Linux file systems.</p>
+<p><code>du -a</code> command – Display the amount of disk space used by the specified files and for each subdirectory.</p>
+<h2 id="Processes"><a href="#Processes" class="headerlink" title="Processes"></a>Processes</h2><p><code>python main.py &gt;&gt; main.log &amp;</code> - Run <code>main.py</code> </p>
+<p><code>ps aux | grep process_name</code> find the process named <code>process_name</code></p>
+<p>Find process occupying port <code>8888</code><br><code>sudo lsof -i :8888</code></p>
+<h3 id="Killing-processes"><a href="#Killing-processes" class="headerlink" title="Killing processes"></a>Killing processes</h3><h2 id="Jupyter"><a href="#Jupyter" class="headerlink" title="Jupyter"></a>Jupyter</h2><p><code>ipython kernelspec list</code> - find ipython kernel list</p>
+<h2 id="set-command"><a href="#set-command" class="headerlink" title="set command"></a><code>set</code> command</h2><p><code>set -e</code> exit program on first error encountered. Does not continue execution.</p>
+<h2 id="trap-command"><a href="#trap-command" class="headerlink" title="trap command"></a><code>trap</code> command</h2><p><a href="https://www.linuxjournal.com/content/bash-trap-command" target="_blank" rel="noopener">Link</a></p>
+<p>Most commonly used scenario: create a temporary file, delete it on exist.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tempfile=/tmp/tmpdata</span><br><span class="line"><span class="built_in">trap</span> <span class="string">"rm -f <span class="variable">$tempfile</span>"</span> EXIT</span><br></pre></td></tr></table></figure>
+
+<p>Or call a cleanup function </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> cleanup()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">trap</span> cleanup EXIT</span><br></pre></td></tr></table></figure>
+
+<p><strong>Important</strong>: interrupted commands are not restarted. So if your script needs to do something important that shouldn’t be interrupted, then you can’t, for example, use the trap command to trap the signal, print a warning, and then resume the operation like nothing happened. Rather, what you need to do if you can’t have something interrupted is disable Ctrl-C handling while the command executes. You can do this with the trap command too by specifying an empty command to trap. You can also use the trap command to reset signal handling to the default by specifying a “-“ as the command.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Run something important, no Ctrl-C allowed.</span></span><br><span class="line"><span class="built_in">trap</span> <span class="string">""</span> SIGINT</span><br><span class="line">important_command</span><br><span class="line"></span><br><span class="line"><span class="comment"># Less important stuff from here on out, Ctrl-C allowed.</span></span><br><span class="line"><span class="built_in">trap</span> - SIGINT</span><br><span class="line">not_so_important_command</span><br></pre></td></tr></table></figure>
+
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-cn">
     <link itemprop="mainEntityOfPage" href="https://wizardly-chandrasekhar-374642.netlify.app/2020/07/23/My-First-Internship-Yamu-Networks/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -190,7 +289,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-07-23 22:41:10 / Modified: 09:16:49" itemprop="dateCreated datePublished" datetime="2020-07-23T22:41:10-07:00">2020-07-23</time>
+              <time title="Created: 2020-07-23 07:41:10 / Modified: 09:16:49" itemprop="dateCreated datePublished" datetime="2020-07-23T07:41:10-07:00">2020-07-23</time>
             </span>
 
           
@@ -251,7 +350,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-cn">
-    <link itemprop="mainEntityOfPage" href="https://wizardly-chandrasekhar-374642.netlify.app/2020/07/14/Python-Threading/">
+    <link itemprop="mainEntityOfPage" href="https://wizardly-chandrasekhar-374642.netlify.app/2020/07/13/Python-Threading/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -265,7 +364,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/07/14/Python-Threading/" class="post-title-link" itemprop="url">Python Threading</a>
+            <a href="/2020/07/13/Python-Threading/" class="post-title-link" itemprop="url">Python Threading</a>
         </h2>
 
         <div class="post-meta">
@@ -275,7 +374,7 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-07-14 00:30:57" itemprop="dateCreated datePublished" datetime="2020-07-14T00:30:57-07:00">2020-07-14</time>
+              <time title="Created: 2020-07-13 09:30:57" itemprop="dateCreated datePublished" datetime="2020-07-13T09:30:57-07:00">2020-07-13</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
@@ -303,8 +402,8 @@
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2020/07/14/Python-Threading/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/14/Python-Threading/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2020/07/13/Python-Threading/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/13/Python-Threading/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -323,7 +422,7 @@
 <h2 id="Difference-between-multiprocessing-and-threading"><a href="#Difference-between-multiprocessing-and-threading" class="headerlink" title="Difference between multiprocessing and threading"></a>Difference between <code>multiprocessing</code> and <code>threading</code></h2><p>The short takeaway from my research is that <code>multiprocessing</code> is for CPU-intensive tasks while <code>threading</code> is for IO-intensive tasks. In my case, I need the network communication to be as fast as possible, which means I’m using <code>threading</code>.</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/07/14/Python-Threading/#more" rel="contents">
+              <a class="btn" href="/2020/07/13/Python-Threading/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -371,7 +470,7 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-07-13 17:29:09" itemprop="dateCreated datePublished" datetime="2020-07-13T17:29:09-07:00">2020-07-13</time>
+              <time title="Created: 2020-07-13 02:29:09" itemprop="dateCreated datePublished" datetime="2020-07-13T02:29:09-07:00">2020-07-13</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
@@ -417,7 +516,7 @@
       
           <p>A Python helper snippet that simplifies using logger in a big project.</p>
 <h2 id="How-to-use"><a href="#How-to-use" class="headerlink" title="How to use"></a>How to use</h2><p>Copy the code below into <code>utils/logger.py</code>.<br>In the file you want to use the logger for, simply write import</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> utils.logger <span class="keyword">import</span> Logger</span><br><span class="line"></span><br><span class="line">l = Logger.time_logger(filepath, when=<span class="string">&#x27;D&#x27;</span>, interval=<span class="number">1</span>, level=logging.INFO, propagate=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">l.info(<span class="string">&#x27;Yooo&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> utils.logger <span class="keyword">import</span> Logger</span><br><span class="line"></span><br><span class="line">l = Logger.time_logger(filepath, when=<span class="string">'D'</span>, interval=<span class="number">1</span>, level=logging.INFO, propagate=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">l.info(<span class="string">'Yooo'</span>)</span><br></pre></td></tr></table></figure>
 
 <h2 id="Code-itself"><a href="#Code-itself" class="headerlink" title="Code itself"></a>Code itself</h2>
           <!--noindex-->
@@ -470,7 +569,7 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-07-12 21:33:35" itemprop="dateCreated datePublished" datetime="2020-07-12T21:33:35-07:00">2020-07-12</time>
+              <time title="Created: 2020-07-12 06:33:35" itemprop="dateCreated datePublished" datetime="2020-07-12T06:33:35-07:00">2020-07-12</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
@@ -515,7 +614,7 @@
 
       
           <p>This is my first official blog. I have always wanted to write blogs with the <em>customizability</em> of a website and the <em>ease of use</em> of a markdown document. It had been on my mind to write a parser that could do such a thing, but being a busy high schooler didn’t help 😫.</p>
-<p>In my opinion, the <a target="_blank" rel="noopener" href="https://theme-next.iissnan.com/getting-started.html">Hexo-Next</a> framework has everything I’d want and more.</p>
+<p>In my opinion, the <a href="https://theme-next.iissnan.com/getting-started.html" target="_blank" rel="noopener">Hexo-Next</a> framework has everything I’d want and more.</p>
 <p>It’s </p>
 <ul>
 <li>simple to use as a markdown parser</li>
@@ -604,21 +703,21 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="My-shortcuts"><a href="#My-shortcuts" class="headerlink" title="My shortcuts"></a>My shortcuts</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo new post <span class="string">&quot;Github Workbook&quot;</span>     <span class="comment"># Create new post</span></span><br><span class="line">hexo d -g                           <span class="comment"># Generate and deploy</span></span><br><span class="line">hexo clean                          <span class="comment"># Clean the caches if bugs occur (very useful)</span></span><br></pre></td></tr></table></figure>
+          <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="My-shortcuts"><a href="#My-shortcuts" class="headerlink" title="My shortcuts"></a>My shortcuts</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo new post <span class="string">"Github Workbook"</span>     <span class="comment"># Create new post</span></span><br><span class="line">hexo d -g                           <span class="comment"># Generate and deploy</span></span><br><span class="line">hexo clean                          <span class="comment"># Clean the caches if bugs occur (very useful)</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
 <h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
 <h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
 <h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
 
       
     </div>
@@ -705,7 +804,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-count">16</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -756,7 +855,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2021</span>
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

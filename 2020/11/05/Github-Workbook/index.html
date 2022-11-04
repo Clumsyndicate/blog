@@ -27,7 +27,7 @@
 <meta property="og:site_name" content="Clumsy&#39;s Blog">
 <meta property="og:description" content="Setting up gitGit global setup12git config --global user.name &quot;Appleseed, John&quot;git config --global user.email &quot;john.appleseed@apple.com&quot;">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-11-06T02:26:54.000Z">
+<meta property="article:published_time" content="2020-11-05T10:26:54.000Z">
 <meta property="article:modified_time" content="2021-05-21T19:41:31.077Z">
 <meta property="article:author" content="Johnson Zhou">
 <meta property="article:tag" content="Github">
@@ -194,7 +194,7 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-11-05 18:26:54" itemprop="dateCreated datePublished" datetime="2020-11-05T18:26:54-08:00">2020-11-05</time>
+              <time title="Created: 2020-11-05 02:26:54" itemprop="dateCreated datePublished" datetime="2020-11-05T02:26:54-08:00">2020-11-05</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
@@ -229,12 +229,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="Setting-up-git"><a href="#Setting-up-git" class="headerlink" title="Setting up git"></a>Setting up git</h2><h3 id="Git-global-setup"><a href="#Git-global-setup" class="headerlink" title="Git global setup"></a>Git global setup</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name <span class="string">&quot;Appleseed, John&quot;</span></span><br><span class="line">git config --global user.email <span class="string">&quot;john.appleseed@apple.com&quot;</span></span><br></pre></td></tr></table></figure>
-<span id="more"></span>
+        <h2 id="Setting-up-git"><a href="#Setting-up-git" class="headerlink" title="Setting up git"></a>Setting up git</h2><h3 id="Git-global-setup"><a href="#Git-global-setup" class="headerlink" title="Git global setup"></a>Git global setup</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name <span class="string">"Appleseed, John"</span></span><br><span class="line">git config --global user.email <span class="string">"john.appleseed@apple.com"</span></span><br></pre></td></tr></table></figure>
+<a id="more"></a>
 <p>Let git remember username and password</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global credential.helper store</span><br></pre></td></tr></table></figure>
 
-<h3 id="Push-an-existing-folder"><a href="#Push-an-existing-folder" class="headerlink" title="Push an existing folder"></a>Push an existing folder</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> existing_folder</span><br><span class="line">git init</span><br><span class="line">git remote add origin https://remote.origin.git</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;Initial commit&quot;</span></span><br></pre></td></tr></table></figure>
+<h3 id="Push-an-existing-folder"><a href="#Push-an-existing-folder" class="headerlink" title="Push an existing folder"></a>Push an existing folder</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> existing_folder</span><br><span class="line">git init</span><br><span class="line">git remote add origin https://remote.origin.git</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">"Initial commit"</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="Push-an-existing-git-repository"><a href="#Push-an-existing-git-repository" class="headerlink" title="Push an existing git repository"></a>Push an existing git repository</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> existing_repo</span><br><span class="line">git remote rename origin old-origin</span><br><span class="line">git remote add origin https://nice.git</span><br></pre></td></tr></table></figure>
 
@@ -242,12 +242,12 @@
 <p>Merge master commits onto feature branch</p>
 <p><code>git checkout feature git merge master</code> or <code>git merge feature master</code></p>
 <p>Merging is not destructive, because it updates the feature branch using an extra merge commit, which could be extraneous and pollute master’s history.</p>
-<h2 id="Squash-all-commits-on-branch"><a href="#Squash-all-commits-on-branch" class="headerlink" title="Squash all commits on branch"></a><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/25356810/git-how-to-squash-all-commits-on-branch">Squash all commits on branch</a></h2><p>Checkout the branch for which you would like to squash all the commits into one commit. Lets say its called feature_branch.</p>
+<h2 id="Squash-all-commits-on-branch"><a href="#Squash-all-commits-on-branch" class="headerlink" title="Squash all commits on branch"></a><a href="https://stackoverflow.com/questions/25356810/git-how-to-squash-all-commits-on-branch" target="_blank" rel="noopener">Squash all commits on branch</a></h2><p>Checkout the branch for which you would like to squash all the commits into one commit. Lets say its called feature_branch.</p>
 <p>git checkout feature_branch<br>Step 1:<br>Do a soft reset of your origin/feature_branch with your local master branch (depending on your needs, you can reset with origin/master as well). This will reset all the extra commits in your feature_branch, but without changing any of your file changes locally.</p>
 <p>git reset –soft master<br>Step 2:<br>Add all of the changes in your git repo directory, to the new commit that is going to be created. And commit the same with a message.</p>
 <p>git add -A &amp;&amp; git commit -m “commit message goes here”</p>
-<h3 id="Undo-git-add"><a href="#Undo-git-add" class="headerlink" title="Undo git add"></a><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/348170/how-do-i-undo-git-add-before-commit">Undo <code>git add</code></a></h3><p>You can undo git add before commit with</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git reset &lt;file&gt;    <span class="comment"># Unstage a specific file</span></span><br><span class="line">git reset           <span class="comment"># Unstage all due changes </span></span><br></pre></td></tr></table></figure>
+<h3 id="Undo-git-add"><a href="#Undo-git-add" class="headerlink" title="Undo git add"></a><a href="https://stackoverflow.com/questions/348170/how-do-i-undo-git-add-before-commit" target="_blank" rel="noopener">Undo <code>git add</code></a></h3><p>You can undo git add before commit with</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git reset &lt;file&gt;    <span class="comment"># Unstage a specific file</span></span><br><span class="line">git reset           <span class="comment"># Unstage all due changes</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="git-reset"><a href="#git-reset" class="headerlink" title="git reset"></a><code>git reset</code></h2><p>Undo the last commit</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --soft HEAD~1</span><br></pre></td></tr></table></figure>
@@ -277,11 +277,11 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/09/24/Python-program-as-a-Service/" rel="prev" title="Python program as a Service">
+    <a href="/2020/09/23/Python-program-as-a-Service/" rel="prev" title="Python program as a Service">
       <i class="fa fa-chevron-left"></i> Python program as a Service
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/11/26/Shell-Dialog/" rel="next" title="Shell Dialog">
+    <a href="/2020/11/25/Shell-Dialog/" rel="next" title="Shell Dialog">
       Shell Dialog <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
@@ -365,7 +365,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-count">16</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -416,7 +416,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2021</span>
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
