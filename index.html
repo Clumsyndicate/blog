@@ -165,6 +165,92 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-cn">
+    <link itemprop="mainEntityOfPage" href="https://wizardly-chandrasekhar-374642.netlify.app/2022/11/26/Implementing-std-function/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Johnson Zhou">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Clumsy's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/11/26/Implementing-std-function/" class="post-title-link" itemprop="url">Implementing std::function</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-11-26 22:38:15" itemprop="dateCreated datePublished" datetime="2022-11-26T22:38:15-10:00">2022-11-26</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2022/11/26/Implementing-std-function/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/11/26/Implementing-std-function/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="What’s-the-point-of-std-function"><a href="#What’s-the-point-of-std-function" class="headerlink" title="What’s the point of std::function"></a>What’s the point of <code>std::function</code></h2><p><code>std::function</code> is a type that allows functions to be passed around as objects. It can be instantiated from function pointers, objects with a <code>operator()</code> defined or a lambda. </p>
+<p>In this post I’d like to implement <code>function</code> that works similarly to <code>std::function</code>.</p>
+<h2 id="Define-external-interface-of-our-function"><a href="#Define-external-interface-of-our-function" class="headerlink" title="Define external interface of our function"></a>Define external interface of our <code>function</code></h2><p>First let’s forward declare <code>function</code> class. We also specify a specialization that takes in a template type with the form of a function signature <code>Ret (Param...)</code>. <code>Ret</code> is the return type and <code>Param...</code> is a variadic type. We would declare the templated constructor for <code>function</code>, as well as <code>operator()</code> that calls the function object that’s stored within our function class. By templating the constructor, we can effectively store function </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">function</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> ...Param&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">function</span>&lt;</span><span class="built_in">Ret</span> (Param...)&gt; &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> FunctionObject&gt;</span><br><span class="line">    <span class="built_in">function</span>(FunctionObject fo);</span><br><span class="line"></span><br><span class="line">    <span class="function">Ret <span class="title">operator</span><span class="params">()</span><span class="params">(Param... param)</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>We would like to store a function, may it be a function pointer, lambda function, member function, or anything that can be invoked. </p>
+<p>To store a callable object, let’s create a interface class that is private to the <code>function</code> class. </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">callable_interface</span> &#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> Ret <span class="title">call</span><span class="params">(Param...)</span> </span>= <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">callable_interface</span>() = <span class="keyword">default</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>The callable implementation type would be a templated type that inherits the interface type <code>callable_interface</code>. For generality, to invoke a function, we would like to use <code>std::invoke</code> which is more robust than simply calling <code>operator()</code>. </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Callable&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">callable_impl</span> :</span> callable_interface &#123;</span><br><span class="line">    <span class="built_in">callable_impl</span>(Callable callable_): <span class="built_in">callable</span>(std::<span class="built_in">move</span>(callable_)) &#123;&#125;</span><br><span class="line">    <span class="function">Ret <span class="title">call</span><span class="params">(Param... param)</span> </span>&#123; <span class="keyword">return</span> std::<span class="built_in">invoke</span>(callable, param...); &#125;</span><br><span class="line"></span><br><span class="line">    Callable callable;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Now we can implement the constructor and <code>operator()</code> for <code>function</code>. In the templated constructor of <code>function</code>, we can create a <code>callable_impl</code> object from the function object, which can be called through it’s base class interface defined as <code>callable_interface</code>. </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Ret, <span class="keyword">typename</span> ... Param&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">function</span>&lt;</span><span class="built_in">Ret</span> (Param...)&gt;</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> FunctionObject&gt;</span><br><span class="line">    <span class="built_in">function</span>(FunctionObject fo)</span><br><span class="line">      : callable&#123;std::make_unique&lt;callable_impl&lt;FunctionObject&gt;&gt;(fo)&#125; &#123;&#125; </span><br><span class="line"></span><br><span class="line">    <span class="function">Ret <span class="title">operator</span><span class="params">()</span><span class="params">(Param... param)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> callable-&gt;<span class="built_in">call</span>(param...);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">callable_interface</span> &#123;</span></span><br><span class="line">        <span class="function"><span class="keyword">virtual</span> Ret <span class="title">call</span><span class="params">(Param...)</span> </span>= <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">virtual</span> ~<span class="built_in">callable_interface</span>() = <span class="keyword">default</span>;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> Callable&gt;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">callable_impl</span> :</span> callable_interface &#123;</span><br><span class="line">        <span class="built_in">callable_impl</span>(Callable callable_): callable&#123;std::<span class="built_in">move</span>(callable_)&#125; &#123;&#125;</span><br><span class="line">        <span class="function">Ret <span class="title">call</span><span class="params">(Param... param)</span> </span>&#123; <span class="keyword">return</span> std::<span class="built_in">invoke</span>(callable, param...); &#125;</span><br><span class="line">        Callable callable;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    std::unique_ptr&lt;callable_interface&gt; callable;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-cn">
     <link itemprop="mainEntityOfPage" href="https://wizardly-chandrasekhar-374642.netlify.app/2022/11/12/std-vector-push-back/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -189,14 +275,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2022-11-12 23:11:59" itemprop="dateCreated datePublished" datetime="2022-11-12T23:11:59-08:00">2022-11-12</time>
+              <time title="Created: 2022-11-12 21:11:59" itemprop="dateCreated datePublished" datetime="2022-11-12T21:11:59-10:00">2022-11-12</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-11-14 21:04:27" itemprop="dateModified" datetime="2022-11-14T21:04:27-08:00">2022-11-14</time>
+                <time title="Modified: 2022-11-14 19:04:27" itemprop="dateModified" datetime="2022-11-14T19:04:27-10:00">2022-11-14</time>
               </span>
 
           
@@ -282,7 +368,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-11-03 17:34:04 / Modified: 17:40:19" itemprop="dateCreated datePublished" datetime="2022-11-03T17:34:04-07:00">2022-11-03</time>
+              <time title="Created: 2022-11-03 14:34:04 / Modified: 14:40:19" itemprop="dateCreated datePublished" datetime="2022-11-03T14:34:04-10:00">2022-11-03</time>
             </span>
 
           
@@ -341,7 +427,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-cn">
-    <link itemprop="mainEntityOfPage" href="https://wizardly-chandrasekhar-374642.netlify.app/2021/12/15/C-20-Concepts/">
+    <link itemprop="mainEntityOfPage" href="https://wizardly-chandrasekhar-374642.netlify.app/2021/12/14/C-20-Concepts/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -355,7 +441,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/12/15/C-20-Concepts/" class="post-title-link" itemprop="url">C++20: Concepts</a>
+            <a href="/2021/12/14/C-20-Concepts/" class="post-title-link" itemprop="url">C++20: Concepts</a>
         </h2>
 
         <div class="post-meta">
@@ -365,14 +451,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2021-12-15 00:35:37" itemprop="dateCreated datePublished" datetime="2021-12-15T00:35:37-08:00">2021-12-15</time>
+              <time title="Created: 2021-12-14 22:35:37" itemprop="dateCreated datePublished" datetime="2021-12-14T22:35:37-10:00">2021-12-14</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-11-12 12:49:21" itemprop="dateModified" datetime="2022-11-12T12:49:21-08:00">2022-11-12</time>
+                <time title="Modified: 2022-11-12 10:49:21" itemprop="dateModified" datetime="2022-11-12T10:49:21-10:00">2022-11-12</time>
               </span>
 
           
@@ -384,8 +470,8 @@
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2021/12/15/C-20-Concepts/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/12/15/C-20-Concepts/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2021/12/14/C-20-Concepts/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/12/14/C-20-Concepts/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -403,7 +489,7 @@
           <h2 id="Using-concepts-in-function-template"><a href="#Using-concepts-in-function-template" class="headerlink" title="Using concepts in function template"></a>Using concepts in function template</h2><p>We want to have different function overloads for integral types and floating point types.<br>How do we use concepts to solve this problem?</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2021/12/15/C-20-Concepts/#more" rel="contents">
+              <a class="btn" href="/2021/12/14/C-20-Concepts/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -427,7 +513,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-cn">
-    <link itemprop="mainEntityOfPage" href="https://wizardly-chandrasekhar-374642.netlify.app/2021/12/15/Overloading-nullptr/">
+    <link itemprop="mainEntityOfPage" href="https://wizardly-chandrasekhar-374642.netlify.app/2021/12/14/Overloading-nullptr/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -441,7 +527,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/12/15/Overloading-nullptr/" class="post-title-link" itemprop="url">Overloading nullptr</a>
+            <a href="/2021/12/14/Overloading-nullptr/" class="post-title-link" itemprop="url">Overloading nullptr</a>
         </h2>
 
         <div class="post-meta">
@@ -452,7 +538,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2021-12-15 00:09:25 / Modified: 01:24:45" itemprop="dateCreated datePublished" datetime="2021-12-15T00:09:25-08:00">2021-12-15</time>
+              <time title="Created: 2021-12-14 22:09:25 / Modified: 23:24:45" itemprop="dateCreated datePublished" datetime="2021-12-14T22:09:25-10:00">2021-12-14</time>
             </span>
 
           
@@ -464,8 +550,8 @@
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2021/12/15/Overloading-nullptr/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/12/15/Overloading-nullptr/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2021/12/14/Overloading-nullptr/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/12/14/Overloading-nullptr/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -483,7 +569,7 @@
           <h1 id="std-nullptr-t"><a href="#std-nullptr-t" class="headerlink" title="std::nullptr_t"></a>std::nullptr_t</h1><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/12066721/what-are-the-uses-of-the-type-stdnullptr-t">What are the uses of the type <code>std::nullptr_t</code>?</a></p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2021/12/15/Overloading-nullptr/#more" rel="contents">
+              <a class="btn" href="/2021/12/14/Overloading-nullptr/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -531,14 +617,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2021-12-09 20:32:51" itemprop="dateCreated datePublished" datetime="2021-12-09T20:32:51-08:00">2021-12-09</time>
+              <time title="Created: 2021-12-09 18:32:51" itemprop="dateCreated datePublished" datetime="2021-12-09T18:32:51-10:00">2021-12-09</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-12-15 01:25:04" itemprop="dateModified" datetime="2021-12-15T01:25:04-08:00">2021-12-15</time>
+                <time title="Modified: 2021-12-14 23:25:04" itemprop="dateModified" datetime="2021-12-14T23:25:04-10:00">2021-12-14</time>
               </span>
 
           
@@ -618,14 +704,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2021-05-10 10:35:44" itemprop="dateCreated datePublished" datetime="2021-05-10T10:35:44-07:00">2021-05-10</time>
+              <time title="Created: 2021-05-10 07:35:44" itemprop="dateCreated datePublished" datetime="2021-05-10T07:35:44-10:00">2021-05-10</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-05-21 13:49:51" itemprop="dateModified" datetime="2021-05-21T13:49:51-07:00">2021-05-21</time>
+                <time title="Modified: 2021-05-21 10:49:51" itemprop="dateModified" datetime="2021-05-21T10:49:51-10:00">2021-05-21</time>
               </span>
 
           
@@ -706,7 +792,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2021-05-10 10:33:11 / Modified: 10:34:28" itemprop="dateCreated datePublished" datetime="2021-05-10T10:33:11-07:00">2021-05-10</time>
+              <time title="Created: 2021-05-10 07:33:11 / Modified: 07:34:28" itemprop="dateCreated datePublished" datetime="2021-05-10T07:33:11-10:00">2021-05-10</time>
             </span>
 
           
@@ -778,7 +864,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-11-25 23:54:10 / Modified: 23:54:22" itemprop="dateCreated datePublished" datetime="2020-11-25T23:54:10-08:00">2020-11-25</time>
+              <time title="Created: 2020-11-25 21:54:10 / Modified: 21:54:22" itemprop="dateCreated datePublished" datetime="2020-11-25T21:54:10-10:00">2020-11-25</time>
             </span>
 
           
@@ -849,14 +935,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-11-05 02:26:54" itemprop="dateCreated datePublished" datetime="2020-11-05T02:26:54-08:00">2020-11-05</time>
+              <time title="Created: 2020-11-05 00:26:54" itemprop="dateCreated datePublished" datetime="2020-11-05T00:26:54-10:00">2020-11-05</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-05-21 12:41:31" itemprop="dateModified" datetime="2021-05-21T12:41:31-07:00">2021-05-21</time>
+                <time title="Modified: 2021-05-21 09:41:31" itemprop="dateModified" datetime="2021-05-21T09:41:31-10:00">2021-05-21</time>
               </span>
 
           
@@ -893,99 +979,6 @@
             </div>
           <!--/noindex-->
         
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-cn">
-    <link itemprop="mainEntityOfPage" href="https://wizardly-chandrasekhar-374642.netlify.app/2020/09/23/Python-program-as-a-Service/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Johnson Zhou">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Clumsy's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/09/23/Python-program-as-a-Service/" class="post-title-link" itemprop="url">Python program as a Service</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-09-23 09:41:57 / Modified: 09:49:26" itemprop="dateCreated datePublished" datetime="2020-09-23T09:41:57-07:00">2020-09-23</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Software/" itemprop="url" rel="index"><span itemprop="name">Software</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2020/09/23/Python-program-as-a-Service/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/09/23/Python-program-as-a-Service/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>The stackexchange <a href="https://stackoverflow.com/questions/63950493/pkill-f-not-working-from-inside-shell-script/64032048#64032048" target="_blank" rel="noopener">link</a>.</p>
-<p>Summary of my problem: <code>pkill -f</code> cannot kill a running python program reliably, so I have to type it out in command line every time I restart it and check whether multiple processes have been spawned using <code>ps aux | grep *.py</code>.</p>
-<p>This is not a satisfactory answer, as I cannot find out the root cause of why <code>pkill -f</code> does not work in a script. I ended up using a <code>systemd</code> Service file to manage my python process. Here’s an example fyi.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description&#x3D;Service Name</span><br><span class="line">[Service]</span><br><span class="line">Environment&#x3D;PYTHONUNBUFFERED&#x3D;1</span><br><span class="line">ExecStart&#x3D;&#x2F;path&#x2F;to&#x2F;python &#x2F;path&#x2F;to&#x2F;python&#x2F;script.py</span><br><span class="line">Restart&#x3D;on-failure</span><br><span class="line">RestartSec&#x3D;5s</span><br><span class="line">WorkingDirectory&#x3D;&#x2F;python&#x2F;project&#x2F;dir&#x2F;</span><br></pre></td></tr></table></figure>
-<p>Name the file <code>main.service</code> and place it in <code>/lib/systemd/system/</code></p>
-<ul>
-<li>Running the service <code>systemctl start main.service</code></li>
-<li>Stop the service <code>systemctl stop main.service</code></li>
-<li>Restart the service <code>systemctl restart main.service</code></li>
-<li>Show status and output <code>systemctl status main.service -l</code></li>
-</ul>
-<p>Now I don’t have to worry about multiple processes running. If the program dies it’ll even restart.</p>
-
       
     </div>
 
@@ -1071,7 +1064,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">18</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

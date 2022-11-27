@@ -165,7 +165,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-cn">
-    <link itemprop="mainEntityOfPage" href="https://wizardly-chandrasekhar-374642.netlify.app/2020/07/31/MiniProgram/">
+    <link itemprop="mainEntityOfPage" href="https://wizardly-chandrasekhar-374642.netlify.app/2020/09/23/Python-program-as-a-Service/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -179,7 +179,100 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/07/31/MiniProgram/" class="post-title-link" itemprop="url">微信小程序选修课 - 课前准备</a>
+            <a href="/2020/09/23/Python-program-as-a-Service/" class="post-title-link" itemprop="url">Python program as a Service</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-09-23 06:41:57 / Modified: 06:49:26" itemprop="dateCreated datePublished" datetime="2020-09-23T06:41:57-10:00">2020-09-23</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Software/" itemprop="url" rel="index"><span itemprop="name">Software</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/09/23/Python-program-as-a-Service/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/09/23/Python-program-as-a-Service/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>The stackexchange <a href="https://stackoverflow.com/questions/63950493/pkill-f-not-working-from-inside-shell-script/64032048#64032048" target="_blank" rel="noopener">link</a>.</p>
+<p>Summary of my problem: <code>pkill -f</code> cannot kill a running python program reliably, so I have to type it out in command line every time I restart it and check whether multiple processes have been spawned using <code>ps aux | grep *.py</code>.</p>
+<p>This is not a satisfactory answer, as I cannot find out the root cause of why <code>pkill -f</code> does not work in a script. I ended up using a <code>systemd</code> Service file to manage my python process. Here’s an example fyi.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description&#x3D;Service Name</span><br><span class="line">[Service]</span><br><span class="line">Environment&#x3D;PYTHONUNBUFFERED&#x3D;1</span><br><span class="line">ExecStart&#x3D;&#x2F;path&#x2F;to&#x2F;python &#x2F;path&#x2F;to&#x2F;python&#x2F;script.py</span><br><span class="line">Restart&#x3D;on-failure</span><br><span class="line">RestartSec&#x3D;5s</span><br><span class="line">WorkingDirectory&#x3D;&#x2F;python&#x2F;project&#x2F;dir&#x2F;</span><br></pre></td></tr></table></figure>
+<p>Name the file <code>main.service</code> and place it in <code>/lib/systemd/system/</code></p>
+<ul>
+<li>Running the service <code>systemctl start main.service</code></li>
+<li>Stop the service <code>systemctl stop main.service</code></li>
+<li>Restart the service <code>systemctl restart main.service</code></li>
+<li>Show status and output <code>systemctl status main.service -l</code></li>
+</ul>
+<p>Now I don’t have to worry about multiple processes running. If the program dies it’ll even restart.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-cn">
+    <link itemprop="mainEntityOfPage" href="https://wizardly-chandrasekhar-374642.netlify.app/2020/07/30/MiniProgram/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Johnson Zhou">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Clumsy's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/30/MiniProgram/" class="post-title-link" itemprop="url">微信小程序选修课 - 课前准备</a>
         </h2>
 
         <div class="post-meta">
@@ -189,14 +282,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-07-31 01:23:57" itemprop="dateCreated datePublished" datetime="2020-07-31T01:23:57-07:00">2020-07-31</time>
+              <time title="Created: 2020-07-30 22:23:57" itemprop="dateCreated datePublished" datetime="2020-07-30T22:23:57-10:00">2020-07-30</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-23 09:47:39" itemprop="dateModified" datetime="2020-09-23T09:47:39-07:00">2020-09-23</time>
+                <time title="Modified: 2020-09-23 06:47:39" itemprop="dateModified" datetime="2020-09-23T06:47:39-10:00">2020-09-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -217,8 +310,8 @@
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2020/07/31/MiniProgram/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/31/MiniProgram/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2020/07/30/MiniProgram/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/30/MiniProgram/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -242,7 +335,7 @@
 <h3 id="课件和Demo"><a href="#课件和Demo" class="headerlink" title="课件和Demo"></a>课件和Demo</h3>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/07/31/MiniProgram/#more" rel="contents">
+              <a class="btn" href="/2020/07/30/MiniProgram/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -266,7 +359,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-cn">
-    <link itemprop="mainEntityOfPage" href="https://wizardly-chandrasekhar-374642.netlify.app/2020/07/31/Linux-command-snippets/">
+    <link itemprop="mainEntityOfPage" href="https://wizardly-chandrasekhar-374642.netlify.app/2020/07/30/Linux-command-snippets/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -280,7 +373,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/07/31/Linux-command-snippets/" class="post-title-link" itemprop="url">Linux command snippets</a>
+            <a href="/2020/07/30/Linux-command-snippets/" class="post-title-link" itemprop="url">Linux command snippets</a>
         </h2>
 
         <div class="post-meta">
@@ -290,14 +383,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-07-31 00:34:05" itemprop="dateCreated datePublished" datetime="2020-07-31T00:34:05-07:00">2020-07-31</time>
+              <time title="Created: 2020-07-30 21:34:05" itemprop="dateCreated datePublished" datetime="2020-07-30T21:34:05-10:00">2020-07-30</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-05-10 10:34:28" itemprop="dateModified" datetime="2021-05-10T10:34:28-07:00">2021-05-10</time>
+                <time title="Modified: 2021-05-10 07:34:28" itemprop="dateModified" datetime="2021-05-10T07:34:28-10:00">2021-05-10</time>
               </span>
 
           
@@ -309,8 +402,8 @@
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2020/07/31/Linux-command-snippets/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/31/Linux-command-snippets/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2020/07/30/Linux-command-snippets/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/30/Linux-command-snippets/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -390,7 +483,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-07-23 07:41:10 / Modified: 09:16:49" itemprop="dateCreated datePublished" datetime="2020-07-23T07:41:10-07:00">2020-07-23</time>
+              <time title="Created: 2020-07-23 04:41:10 / Modified: 06:16:49" itemprop="dateCreated datePublished" datetime="2020-07-23T04:41:10-10:00">2020-07-23</time>
             </span>
 
           
@@ -475,14 +568,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-07-13 09:30:57" itemprop="dateCreated datePublished" datetime="2020-07-13T09:30:57-07:00">2020-07-13</time>
+              <time title="Created: 2020-07-13 06:30:57" itemprop="dateCreated datePublished" datetime="2020-07-13T06:30:57-10:00">2020-07-13</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-23 09:17:05" itemprop="dateModified" datetime="2020-07-23T09:17:05-07:00">2020-07-23</time>
+                <time title="Modified: 2020-07-23 06:17:05" itemprop="dateModified" datetime="2020-07-23T06:17:05-10:00">2020-07-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -547,7 +640,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-cn">
-    <link itemprop="mainEntityOfPage" href="https://wizardly-chandrasekhar-374642.netlify.app/2020/07/13/Python-Logger/">
+    <link itemprop="mainEntityOfPage" href="https://wizardly-chandrasekhar-374642.netlify.app/2020/07/12/Python-Logger/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -561,7 +654,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/07/13/Python-Logger/" class="post-title-link" itemprop="url">Python Logger</a>
+            <a href="/2020/07/12/Python-Logger/" class="post-title-link" itemprop="url">Python Logger</a>
         </h2>
 
         <div class="post-meta">
@@ -571,14 +664,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-07-13 02:29:09" itemprop="dateCreated datePublished" datetime="2020-07-13T02:29:09-07:00">2020-07-13</time>
+              <time title="Created: 2020-07-12 23:29:09" itemprop="dateCreated datePublished" datetime="2020-07-12T23:29:09-10:00">2020-07-12</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-23 09:48:47" itemprop="dateModified" datetime="2020-09-23T09:48:47-07:00">2020-09-23</time>
+                <time title="Modified: 2020-09-23 06:48:47" itemprop="dateModified" datetime="2020-09-23T06:48:47-10:00">2020-09-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -599,8 +692,8 @@
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2020/07/13/Python-Logger/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/13/Python-Logger/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2020/07/12/Python-Logger/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/12/Python-Logger/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -622,7 +715,7 @@
 <h2 id="Code-itself"><a href="#Code-itself" class="headerlink" title="Code itself"></a>Code itself</h2>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/07/13/Python-Logger/#more" rel="contents">
+              <a class="btn" href="/2020/07/12/Python-Logger/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -670,14 +763,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-07-12 06:33:35" itemprop="dateCreated datePublished" datetime="2020-07-12T06:33:35-07:00">2020-07-12</time>
+              <time title="Created: 2020-07-12 03:33:35" itemprop="dateCreated datePublished" datetime="2020-07-12T03:33:35-10:00">2020-07-12</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-23 09:04:54" itemprop="dateModified" datetime="2020-07-23T09:04:54-07:00">2020-07-23</time>
+                <time title="Modified: 2020-07-23 06:04:54" itemprop="dateModified" datetime="2020-07-23T06:04:54-10:00">2020-07-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -769,14 +862,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-07-11 10:39:26" itemprop="dateCreated datePublished" datetime="2020-07-11T10:39:26-07:00">2020-07-11</time>
+              <time title="Created: 2020-07-11 07:39:26" itemprop="dateCreated datePublished" datetime="2020-07-11T07:39:26-10:00">2020-07-11</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-11-05 02:34:03" itemprop="dateModified" datetime="2020-11-05T02:34:03-08:00">2020-11-05</time>
+                <time title="Modified: 2020-11-05 00:34:03" itemprop="dateModified" datetime="2020-11-05T00:34:03-10:00">2020-11-05</time>
               </span>
 
           
@@ -905,7 +998,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">18</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
