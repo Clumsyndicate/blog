@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
+<meta name="generator" content="Hexo 4.2.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -165,580 +165,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-cn">
-    <link itemprop="mainEntityOfPage" href="https://wizardly-chandrasekhar-374642.netlify.app/2020/09/23/Python-program-as-a-Service/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Johnson Zhou">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Clumsy's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/09/23/Python-program-as-a-Service/" class="post-title-link" itemprop="url">Python program as a Service</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-09-23 06:41:57 / Modified: 06:49:26" itemprop="dateCreated datePublished" datetime="2020-09-23T06:41:57-10:00">2020-09-23</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Software/" itemprop="url" rel="index"><span itemprop="name">Software</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2020/09/23/Python-program-as-a-Service/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/09/23/Python-program-as-a-Service/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>The stackexchange <a href="https://stackoverflow.com/questions/63950493/pkill-f-not-working-from-inside-shell-script/64032048#64032048" target="_blank" rel="noopener">link</a>.</p>
-<p>Summary of my problem: <code>pkill -f</code> cannot kill a running python program reliably, so I have to type it out in command line every time I restart it and check whether multiple processes have been spawned using <code>ps aux | grep *.py</code>.</p>
-<p>This is not a satisfactory answer, as I cannot find out the root cause of why <code>pkill -f</code> does not work in a script. I ended up using a <code>systemd</code> Service file to manage my python process. Here’s an example fyi.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description&#x3D;Service Name</span><br><span class="line">[Service]</span><br><span class="line">Environment&#x3D;PYTHONUNBUFFERED&#x3D;1</span><br><span class="line">ExecStart&#x3D;&#x2F;path&#x2F;to&#x2F;python &#x2F;path&#x2F;to&#x2F;python&#x2F;script.py</span><br><span class="line">Restart&#x3D;on-failure</span><br><span class="line">RestartSec&#x3D;5s</span><br><span class="line">WorkingDirectory&#x3D;&#x2F;python&#x2F;project&#x2F;dir&#x2F;</span><br></pre></td></tr></table></figure>
-<p>Name the file <code>main.service</code> and place it in <code>/lib/systemd/system/</code></p>
-<ul>
-<li>Running the service <code>systemctl start main.service</code></li>
-<li>Stop the service <code>systemctl stop main.service</code></li>
-<li>Restart the service <code>systemctl restart main.service</code></li>
-<li>Show status and output <code>systemctl status main.service -l</code></li>
-</ul>
-<p>Now I don’t have to worry about multiple processes running. If the program dies it’ll even restart.</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-cn">
-    <link itemprop="mainEntityOfPage" href="https://wizardly-chandrasekhar-374642.netlify.app/2020/07/30/MiniProgram/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Johnson Zhou">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Clumsy's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/30/MiniProgram/" class="post-title-link" itemprop="url">微信小程序选修课 - 课前准备</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-07-30 22:23:57" itemprop="dateCreated datePublished" datetime="2020-07-30T22:23:57-10:00">2020-07-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-23 06:47:39" itemprop="dateModified" datetime="2020-09-23T06:47:39-10:00">2020-09-23</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/App-Dev/" itemprop="url" rel="index"><span itemprop="name">App Dev</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2020/07/30/MiniProgram/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/30/MiniProgram/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="课程简介"><a href="#课程简介" class="headerlink" title="课程简介"></a>课程简介</h2><p>在2020 TechX的选修课中，微信小程序入门课程会悉数微信小程序开发的重点知识，教授开发流程，并告诉你如何自己学习并开发出更好的小程序应用🥳。</p>
-<h3 id="Prerequisite"><a href="#Prerequisite" class="headerlink" title="Prerequisite"></a>Prerequisite</h3><ul>
-<li>希望大家有基本编程基础</li>
-<li>有接触过 <code>html/css/js</code> is a plus!</li>
-<li>web dev 的同学们走过路过不要错过</li>
-</ul>
-<h3 id="课件和Demo"><a href="#课件和Demo" class="headerlink" title="课件和Demo"></a>课件和Demo</h3>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/07/30/MiniProgram/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-cn">
-    <link itemprop="mainEntityOfPage" href="https://wizardly-chandrasekhar-374642.netlify.app/2020/07/30/Linux-command-snippets/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Johnson Zhou">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Clumsy's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/30/Linux-command-snippets/" class="post-title-link" itemprop="url">Linux command snippets</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-07-30 21:34:05" itemprop="dateCreated datePublished" datetime="2020-07-30T21:34:05-10:00">2020-07-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-05-10 07:34:28" itemprop="dateModified" datetime="2021-05-10T07:34:28-10:00">2021-05-10</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2020/07/30/Linux-command-snippets/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/30/Linux-command-snippets/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="sudo-E"><a href="#sudo-E" class="headerlink" title="sudo -E"></a><code>sudo -E</code></h2><blockquote>
-<p>The -E (preserve environment) option indicates to the security policy that the user wishes to preserve their existing environment variables. The security policy may return an error if the -E option is specified and the user does not have permission to preserve the environment.</p>
-</blockquote>
-<h2 id="Disk-space-management"><a href="#Disk-space-management" class="headerlink" title="Disk space management"></a>Disk space management</h2><p><code>df</code> command – Shows the amount of disk space used and available on Linux file systems.</p>
-<p><code>du -a</code> command – Display the amount of disk space used by the specified files and for each subdirectory.</p>
-<h2 id="Processes"><a href="#Processes" class="headerlink" title="Processes"></a>Processes</h2><p><code>python main.py &gt;&gt; main.log &amp;</code> - Run <code>main.py</code> </p>
-<p><code>ps aux | grep process_name</code> find the process named <code>process_name</code></p>
-<p>Find process occupying port <code>8888</code><br><code>sudo lsof -i :8888</code></p>
-<h3 id="Killing-processes"><a href="#Killing-processes" class="headerlink" title="Killing processes"></a>Killing processes</h3><h2 id="Jupyter"><a href="#Jupyter" class="headerlink" title="Jupyter"></a>Jupyter</h2><p><code>ipython kernelspec list</code> - find ipython kernel list</p>
-<h2 id="set-command"><a href="#set-command" class="headerlink" title="set command"></a><code>set</code> command</h2><p><code>set -e</code> exit program on first error encountered. Does not continue execution.</p>
-<h2 id="trap-command"><a href="#trap-command" class="headerlink" title="trap command"></a><code>trap</code> command</h2><p><a href="https://www.linuxjournal.com/content/bash-trap-command" target="_blank" rel="noopener">Link</a></p>
-<p>Most commonly used scenario: create a temporary file, delete it on exist.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tempfile=/tmp/tmpdata</span><br><span class="line"><span class="built_in">trap</span> <span class="string">"rm -f <span class="variable">$tempfile</span>"</span> EXIT</span><br></pre></td></tr></table></figure>
-
-<p>Or call a cleanup function </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> cleanup()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">trap</span> cleanup EXIT</span><br></pre></td></tr></table></figure>
-
-<p><strong>Important</strong>: interrupted commands are not restarted. So if your script needs to do something important that shouldn’t be interrupted, then you can’t, for example, use the trap command to trap the signal, print a warning, and then resume the operation like nothing happened. Rather, what you need to do if you can’t have something interrupted is disable Ctrl-C handling while the command executes. You can do this with the trap command too by specifying an empty command to trap. You can also use the trap command to reset signal handling to the default by specifying a “-“ as the command.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Run something important, no Ctrl-C allowed.</span></span><br><span class="line"><span class="built_in">trap</span> <span class="string">""</span> SIGINT</span><br><span class="line">important_command</span><br><span class="line"></span><br><span class="line"><span class="comment"># Less important stuff from here on out, Ctrl-C allowed.</span></span><br><span class="line"><span class="built_in">trap</span> - SIGINT</span><br><span class="line">not_so_important_command</span><br></pre></td></tr></table></figure>
-
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-cn">
-    <link itemprop="mainEntityOfPage" href="https://wizardly-chandrasekhar-374642.netlify.app/2020/07/23/My-First-Internship-Yamu-Networks/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Johnson Zhou">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Clumsy's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/23/My-First-Internship-Yamu-Networks/" class="post-title-link" itemprop="url">My First Internship - Yamu Networks</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-07-23 04:41:10 / Modified: 06:16:49" itemprop="dateCreated datePublished" datetime="2020-07-23T04:41:10-10:00">2020-07-23</time>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2020/07/23/My-First-Internship-Yamu-Networks/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/23/My-First-Internship-Yamu-Networks/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>For my Freshman year at UCLA, I’ve been looking for internships non-stop. As an International Freshman, man it is hard to find an internship state-side. I had no luck with spamming my resumé to any interesting post that I could find. </p>
-</blockquote>
-<blockquote>
-<p>It was at the start of July, I was in despair after a few failed attempts at landing an internship. Peter, a friend from highschool one year my senior reached out to me, asking whether I wanted to join him on his project at a DNS company. He knew me from collaborating on several projects in high school and hackathons. </p>
-</blockquote>
-<h2 id="Our-DNS-Dialing-Project"><a href="#Our-DNS-Dialing-Project" class="headerlink" title="Our DNS Dialing Project"></a>Our DNS Dialing Project</h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/07/23/My-First-Internship-Yamu-Networks/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-cn">
-    <link itemprop="mainEntityOfPage" href="https://wizardly-chandrasekhar-374642.netlify.app/2020/07/13/Python-Threading/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Johnson Zhou">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Clumsy's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/13/Python-Threading/" class="post-title-link" itemprop="url">Python Threading</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-07-13 06:30:57" itemprop="dateCreated datePublished" datetime="2020-07-13T06:30:57-10:00">2020-07-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-23 06:17:05" itemprop="dateModified" datetime="2020-07-23T06:17:05-10:00">2020-07-23</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Software/" itemprop="url" rel="index"><span itemprop="name">Software</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2020/07/13/Python-Threading/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/13/Python-Threading/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>I’m trying to implement a central control backend for a distributed system called <a href="emqx.io">EMQX</a>. To deal with asynchronous task / message queueing, I’m using Python’s <code>threading</code> module to achieve asyc messaging. </p>
-<h2 id="Difference-between-multiprocessing-and-threading"><a href="#Difference-between-multiprocessing-and-threading" class="headerlink" title="Difference between multiprocessing and threading"></a>Difference between <code>multiprocessing</code> and <code>threading</code></h2><p>The short takeaway from my research is that <code>multiprocessing</code> is for CPU-intensive tasks while <code>threading</code> is for IO-intensive tasks. In my case, I need the network communication to be as fast as possible, which means I’m using <code>threading</code>.</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/07/13/Python-Threading/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-cn">
-    <link itemprop="mainEntityOfPage" href="https://wizardly-chandrasekhar-374642.netlify.app/2020/07/12/Python-Logger/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Johnson Zhou">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Clumsy's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/12/Python-Logger/" class="post-title-link" itemprop="url">Python Logger</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-07-12 23:29:09" itemprop="dateCreated datePublished" datetime="2020-07-12T23:29:09-10:00">2020-07-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-23 06:48:47" itemprop="dateModified" datetime="2020-09-23T06:48:47-10:00">2020-09-23</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Software/" itemprop="url" rel="index"><span itemprop="name">Software</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2020/07/12/Python-Logger/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/12/Python-Logger/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>A Python helper snippet that simplifies using logger in a big project.</p>
-<h2 id="How-to-use"><a href="#How-to-use" class="headerlink" title="How to use"></a>How to use</h2><p>Copy the code below into <code>utils/logger.py</code>.<br>In the file you want to use the logger for, simply write import</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> utils.logger <span class="keyword">import</span> Logger</span><br><span class="line"></span><br><span class="line">l = Logger.time_logger(filepath, when=<span class="string">'D'</span>, interval=<span class="number">1</span>, level=logging.INFO, propagate=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">l.info(<span class="string">'Yooo'</span>)</span><br></pre></td></tr></table></figure>
-
-<h2 id="Code-itself"><a href="#Code-itself" class="headerlink" title="Code itself"></a>Code itself</h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/07/12/Python-Logger/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-cn">
     <link itemprop="mainEntityOfPage" href="https://wizardly-chandrasekhar-374642.netlify.app/2020/07/12/Blog-Setup/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -763,14 +189,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-07-12 03:33:35" itemprop="dateCreated datePublished" datetime="2020-07-12T03:33:35-10:00">2020-07-12</time>
+              <time title="Created: 2020-07-12 21:33:35" itemprop="dateCreated datePublished" datetime="2020-07-12T21:33:35+08:00">2020-07-12</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-23 06:04:54" itemprop="dateModified" datetime="2020-07-23T06:04:54-10:00">2020-07-23</time>
+                <time title="Modified: 2020-07-24 00:04:54" itemprop="dateModified" datetime="2020-07-24T00:04:54+08:00">2020-07-24</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -838,7 +264,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-cn">
-    <link itemprop="mainEntityOfPage" href="https://wizardly-chandrasekhar-374642.netlify.app/2020/07/11/hello-world/">
+    <link itemprop="mainEntityOfPage" href="https://wizardly-chandrasekhar-374642.netlify.app/2020/07/12/hello-world/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -852,7 +278,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/07/11/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
+            <a href="/2020/07/12/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
         </h2>
 
         <div class="post-meta">
@@ -862,14 +288,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-07-11 07:39:26" itemprop="dateCreated datePublished" datetime="2020-07-11T07:39:26-10:00">2020-07-11</time>
+              <time title="Created: 2020-07-12 01:39:26" itemprop="dateCreated datePublished" datetime="2020-07-12T01:39:26+08:00">2020-07-12</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-11-05 00:34:03" itemprop="dateModified" datetime="2020-11-05T00:34:03-10:00">2020-11-05</time>
+                <time title="Modified: 2020-11-05 18:34:03" itemprop="dateModified" datetime="2020-11-05T18:34:03+08:00">2020-11-05</time>
               </span>
 
           
@@ -881,8 +307,8 @@
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2020/07/11/hello-world/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/11/hello-world/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2020/07/12/hello-world/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/12/hello-world/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -998,7 +424,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-count">12</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1011,7 +437,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -1049,7 +475,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
